@@ -1,7 +1,7 @@
 # CM21_89077
 
 
-An Android app to make a call and save some contacts with quick access.<br /> 
+An Android app to make a call and save some contacts with quick access. <br /> 
 
 Screen 1 | Screen 2
 --- | ---
