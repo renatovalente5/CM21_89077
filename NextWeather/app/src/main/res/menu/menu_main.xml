@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pt.ua.nextweather.ui.MainActivity">
+
+    <item
+        android:id="@+id/aveiro"
+        android:orderInCategory="100"
+        android:title="@string/aveiro"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/porto"
+        android:orderInCategory="100"
+        android:title="@string/porto"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/lisboa"
+        android:orderInCategory="100"
+        android:title="@string/lisboa"
+        app:showAsAction="never" />
+</menu>
