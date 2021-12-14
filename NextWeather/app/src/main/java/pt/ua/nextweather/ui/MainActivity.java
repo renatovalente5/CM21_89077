@@ -1,5 +1,6 @@
 package pt.ua.nextweather.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -29,11 +31,13 @@ import pt.ua.nextweather.network.ForecastForACityResultsObserver;
 import pt.ua.nextweather.network.IpmaWeatherClient;
 import pt.ua.nextweather.network.WeatherTypesResultsObserver;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private TextView feedback, cityy;
+    private TextView feedback;
     public ArrayList<String> dados;
     public String s = "";
+    ListView listView;
+    ArrayAdapter adapter;
 
     IpmaWeatherClient client = new IpmaWeatherClient();
     private HashMap<String, City> cities;
@@ -45,20 +49,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         dados = new ArrayList<>();
-        cityy = findViewById(R.id.cityy);
+        listView = (ListView) findViewById(R.id.listView);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dados);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callWeatherForecastForACityStep1("Aveiro");
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                callWeatherForecastForACityStep1("Aveiro");
+//            }
+//        });
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.citys_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
-        feedback = findViewById(R.id.tvFeedback);
+        feedback = null;
     }
 
 
@@ -75,21 +86,19 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         //dados = new ArrayList<>();
+        //dados.clear();
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.aveiro) {
-            cityy.setText("Aveiro");
             callWeatherForecastForACityStep1("Aveiro");
             return true;
         }
         if (id == R.id.porto) {
-            cityy.setText("Porto");
             callWeatherForecastForACityStep1("Porto");
             return true;
         }
         if (id == R.id.lisboa) {
-            cityy.setText("Lisboa");
             callWeatherForecastForACityStep1("Lisboa");
             return true;
         }
@@ -125,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.cities = citiesCollection;
                 City cityFound = cities.get(city);
                 if( null != cityFound) {
+                    //dados.add(city);
                     int locationId = cityFound.getGlobalIdLocal();
                     callWeatherForecastForACityStep3(locationId);
                 } else {
@@ -140,13 +150,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callWeatherForecastForACityStep3(int localId) {
-        ListView listView = (ListView) findViewById(R.id.listView);
         //List dados = new List()<String>;
 //        ArrayList<String> dados = new ArrayList<>();
         //dados = new ArrayList<>();
         client.retrieveForecastForCity(localId, new ForecastForACityResultsObserver() {
             @Override
             public void receiveForecastList(List<Weather> forecast) {
+                dados.clear();
                 for (Weather day : forecast) {
 
                     s += ("\n");
@@ -167,8 +177,33 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dados);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, dados);
         listView.setAdapter(adapter);
 
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (i) {
+                case 0:
+                    // Whatever you want to happen when the first item gets selected
+                    callWeatherForecastForACityStep1("Aveiro");
+                    break;
+                case 1:
+                    // Whatever you want to happen when the second item gets selected
+                    callWeatherForecastForACityStep1("Porto");
+                    break;
+                case 2:
+                    // Whatever you want to happen when the thrid item gets selected
+                    callWeatherForecastForACityStep1("Lisboa");
+                    break;
+            }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
 }
+

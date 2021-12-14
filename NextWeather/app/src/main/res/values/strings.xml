@@ -12,5 +12,10 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <string-array name="citys_array">
+        <item>Aveiro</item>
+        <item>Porto</item>
+        <item>Lisboa</item>
+    </string-array>
 
 </resources>
