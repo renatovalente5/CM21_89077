@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">RoomApp</string>
+    <string name="action_clear">Clear all</string>
+
+
+    <string name="hint_word">Word…</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Word not saved because it is empty.</string>
+    <string name="ui_no_word_yet">No Word</string>
+    <string name="email">email</string>
+    <string name="email_now">Email now</string>
+    <string name="no_data">no contact</string>
+
+</resources>
